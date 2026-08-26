@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>House Price Prediction</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(
+                    rgba(10, 25, 47, 0.78),
+                    rgba(10, 25, 47, 0.78)
+                ),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80")
+                center/cover no-repeat fixed;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #0d6efd;
+            color: white;
+            border-radius: 12px;
+            font-size: 22px;
+        }
+
+        .hero-section {
+            padding: 70px 0 45px;
+        }
+
+        .hero-title {
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.15;
+        }
+
+        .hero-text {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 18px;
+            max-width: 650px;
+        }
+
+        .prediction-card {
+            background: rgba(255, 255, 255, 0.98);
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-header-custom {
+            background: transparent;
+            border-bottom: 1px solid #e9ecef;
+            padding: 28px 30px 20px;
+        }
+
+        .form-section {
+            padding: 30px;
+        }
+
+        .input-group-text {
+            background: #f1f5f9;
+            border-color: #dee2e6;
+            color: #0d6efd;
+        }
+
+        .form-control {
+            min-height: 48px;
+            border-color: #dee2e6;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #263238;
+        }
+
+        .predict-btn {
+            min-height: 52px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid #e9ecef;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .info-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #e7f1ff;
+            color: #0d6efd;
+            font-size: 20px;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 45px 0 30px;
+            }
+
+            .hero-title {
+                font-size: 34px;
+            }
+
+            .hero-text {
+                font-size: 16px;
+            }
+
+            .form-section,
+            .card-header-custom {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold"
+           href="#">
+
+            <span class="brand-icon">
+                <i class="bi bi-house-heart-fill"></i>
+            </span>
+
+            <span>HousePredict</span>
+
+        </a>
+
+        <span class="badge text-bg-primary px-3 py-2">
+            House Prediction
+        </span>
+
+    </div>
+</nav>
+
+
+<!-- ================= HERO ================= -->
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center g-4">
+
+            <!-- LEFT SIDE -->
+            <div class="col-lg-6">
+
+                <span class="badge rounded-pill text-bg-light text-primary px-3 py-2 mb-3">
+
+                    <i class="bi bi-stars me-1"></i>
+
+                    House Property Prediction
+
+                </span>
+
+                <h1 class="hero-title mb-3">
+
+                    House Price
+                    <br>
+                    Prediction System
+
+                </h1>
+
+                <p class="hero-text mb-0">
+
+                    Enter the property details below and use our
+                    machine learning model to predict the estimated
+                    house price.
+
+                </p>
+
+            </div>
+
+
+            <!-- RIGHT SIDE FORM -->
+            <div class="col-lg-6">
+
+                <div class="card prediction-card">
+
+                    <!-- CARD HEADER -->
+                    <div class="card-header-custom">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="info-icon">
+
+                                <i class="bi bi-calculator-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h4 class="mb-1 fw-bold">
+                                    Property Details
+                                </h4>
+
+                                <p class="text-muted mb-0 small">
+                                    Enter all five details to predict
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FORM -->
+                    <div class="form-section">
+
+                        <form method="POST">
+
+
+                            <!-- HOUSE SIZE -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="size"
+                                    class="form-label"
+                                >
+                                    House Size in sq.ft
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-house-door-fill"></i>
+
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        step="any"
+                                        class="form-control"
+                                        id="size"
+                                        name="size"
+                                        placeholder="Enter house size in sq.ft"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BEDROOMS -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="bedrooms"
+                                    class="form-label"
+                                >
+                                    Number of Bedrooms
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-door-open-fill"></i>
+
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        step="any"
+                                        class="form-control"
+                                        id="bedrooms"
+                                        name="bedrooms"
+                                        placeholder="Enter number of bedrooms"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BATHROOMS -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="bathrooms"
+                                    class="form-label"
+                                >
+                                    Number of Bathrooms
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-droplet-fill"></i>
+
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        step="any"
+                                        class="form-control"
+                                        id="bathrooms"
+                                        name="bathrooms"
+                                        placeholder="Enter number of bathrooms"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- HOUSE AGE -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="age"
+                                    class="form-label"
+                                >
+                                    House Age
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-calendar3"></i>
+
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        step="any"
+                                        class="form-control"
+                                        id="age"
+                                        name="age"
+                                        placeholder="Enter house age"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DISTANCE -->
+                            <div class="mb-4">
+
+                                <label
+                                    for="distance"
+                                    class="form-label"
+                                >
+                                    Distance from City
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-geo-alt-fill"></i>
+
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        step="any"
+                                        class="form-control"
+                                        id="distance"
+                                        name="distance"
+                                        placeholder="Enter distance from city"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- SUBMIT BUTTON -->
+                            <button
+                                type="submit"
+                                class="btn btn-primary w-100 predict-btn"
+                            >
+
+                                <i class="bi bi-magic me-2"></i>
+
+                                Predict House Price
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= INFO SECTION ================= -->
+<section class="pb-5">
+
+    <div class="container">
+
+        <div class="row g-3">
+
+
+            <!-- ML -->
+            <div class="col-md-4">
+
+                <div class="info-box h-100">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-cpu-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                House Prediction
+                            </h6>
+
+                            <p class="small text-muted mb-0">
+                                Prediction powered by an ML model.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DATA -->
+            <div class="col-md-4">
+
+                <div class="info-box h-100">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-bar-chart-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                Data Driven
+                            </h6>
+
+                            <p class="small text-muted mb-0">
+                                Uses property-related input features.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK -->
+            <div class="col-md-4">
+
+                <div class="info-box h-100">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-lightning-charge-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                Quick Prediction
+                            </h6>
+
+                            <p class="small text-muted mb-0">
+                                Enter details and get your prediction.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- FOOTER -->
+        <div class="text-center mt-4">
+
+            <p class="footer-text mb-0">
+
+                HousePredict &nbsp;•&nbsp; Machine Learning Project
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

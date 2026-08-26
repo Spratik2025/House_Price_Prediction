@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>House Price Prediction Result</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(10, 25, 47, 0.82),
+                    rgba(10, 25, 47, 0.82)
+                ),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80")
+                center/cover no-repeat fixed;
+
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #0d6efd;
+            color: white;
+
+            border-radius: 12px;
+            font-size: 22px;
+        }
+
+        .result-section {
+            min-height: calc(100vh - 75px);
+
+            display: flex;
+            align-items: center;
+
+            padding: 60px 0;
+        }
+
+        .result-card {
+            max-width: 650px;
+            margin: auto;
+
+            background: rgba(255, 255, 255, 0.98);
+
+            border: none;
+            border-radius: 28px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.28);
+        }
+
+        .success-icon {
+            width: 82px;
+            height: 82px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #e8f7ee;
+            color: #198754;
+
+            border-radius: 50%;
+
+            font-size: 42px;
+        }
+
+        .result-title {
+            color: #172b4d;
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .result-subtitle {
+            color: #6c757d;
+            font-size: 16px;
+        }
+
+        .price-box {
+            margin: 30px 0;
+
+            padding: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d6efd,
+                    #084298
+                );
+
+            color: white;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 12px 30px rgba(13, 110, 253, 0.25);
+        }
+
+        .price-label {
+            font-size: 14px;
+            opacity: 0.85;
+
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price-value {
+            margin-top: 8px;
+
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .price-note {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .feature-box {
+            background: #f8fafc;
+
+            border: 1px solid #e9ecef;
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            height: 100%;
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #e7f1ff;
+            color: #0d6efd;
+
+            border-radius: 11px;
+
+            font-size: 20px;
+        }
+
+        .btn-predict {
+            min-height: 50px;
+
+            border-radius: 12px;
+
+            font-weight: 600;
+        }
+
+        .btn-home {
+            min-height: 50px;
+
+            border-radius: 12px;
+
+            font-weight: 600;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        @media (max-width: 576px) {
+
+            .result-section {
+                padding: 35px 15px;
+            }
+
+            .result-card {
+                border-radius: 20px;
+            }
+
+            .result-title {
+                font-size: 27px;
+            }
+
+            .price-value {
+                font-size: 34px;
+            }
+
+            .price-box {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg sticky-top">
+
+    <div class="container py-2">
+
+        <a
+            class="navbar-brand d-flex align-items-center gap-2 fw-bold"
+            href="/"
+        >
+
+            <span class="brand-icon">
+                <i class="bi bi-house-heart-fill"></i>
+            </span>
+
+            <span>
+                HousePredict
+            </span>
+
+        </a>
+
+        <span class="badge text-bg-success px-3 py-2">
+
+            <i class="bi bi-check-circle-fill me-1"></i>
+
+            Prediction Complete
+
+        </span>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= RESULT SECTION ================= -->
+
+<section class="result-section">
+
+    <div class="container">
+
+        <div class="card result-card">
+
+            <div class="card-body p-4 p-md-5 text-center">
+
+
+                <!-- SUCCESS ICON -->
+
+                <div class="success-icon">
+
+                    <i class="bi bi-check-lg"></i>
+
+                </div>
+
+
+                <!-- TITLE -->
+
+                <h1 class="result-title mb-2">
+
+                    Prediction Successful
+
+                </h1>
+
+
+                <p class="result-subtitle mb-0">
+
+                    Your estimated house price has been calculated
+                    using the machine learning model.
+
+                </p>
+
+
+                <!-- PRICE RESULT -->
+
+                <div class="price-box">
+
+                    <div class="price-label">
+
+                        Estimated House Price
+
+                    </div>
+
+                    <div class="price-value">
+
+                        $ {{ total }}
+
+                    </div>
+
+                    <div class="price-note">
+
+                        Predicted value based on the provided property details
+
+                    </div>
+
+                </div>
+
+
+                <!-- INFORMATION -->
+
+                <div class="row g-3 text-start mb-4">
+
+
+                    <!-- ML MODEL -->
+
+                    <div class="col-md-6">
+
+                        <div class="feature-box">
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="feature-icon">
+
+                                    <i class="bi bi-cpu-fill"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h6 class="fw-bold mb-1">
+
+                                        Machine Learning
+
+                                    </h6>
+
+                                    <p class="small text-muted mb-0">
+
+                                        Prediction generated by the trained ML model.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RESULT -->
+
+                    <div class="col-md-6">
+
+                        <div class="feature-box">
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="feature-icon">
+
+                                    <i class="bi bi-graph-up-arrow"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h6 class="fw-bold mb-1">
+
+                                        Estimated Value
+
+                                    </h6>
+
+                                    <p class="small text-muted mb-0">
+
+                                        The displayed value is the model prediction.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <a
+                            href="/"
+                            class="btn btn-outline-primary btn-home w-100"
+                        >
+
+                            <i class="bi bi-arrow-left me-2"></i>
+
+                            Back to Home
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <a
+                            href="/"
+                            class="btn btn-primary btn-predict w-100"
+                        >
+
+                            <i class="bi bi-arrow-repeat me-2"></i>
+
+                            Predict Again
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="text-center mt-4">
+
+            <p class="footer-text mb-0">
+
+                HousePredict &nbsp;•&nbsp;
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</body>
+</html>
